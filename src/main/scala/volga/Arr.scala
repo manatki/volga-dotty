@@ -81,7 +81,7 @@ trait ArrApply[->[_, _]] extends ArrChoice[->]
   override def[A, B, C, D](f: A -> C) choose(g: B -> D): Either[A, B] -> Either[C, D] =
     app <<< lift {
       case Left(a)  => ((), f lmap(_ => a) rmap (Left(_)))
-      case Right(b) => ((), g lmap(_ => b) rmap(Right(_)))
+      case Right(b) => ((), g lmap(_ => b) rmap (Right(_)))
     }
 
 
@@ -90,8 +90,6 @@ trait ArrInstanceChain
       def lift[A, B](f: A => B): A -> B                               = arr.lift(f)
       def [A, B, C, D](f: A -> C) split (g: B -> D): (A, B) -> (C, D) = arr.split(f, g)
       def [A, B, C](f: B -> C) compose (g: A -> B): A -> C            = arr.compose(f, g)
-    
-
 
 trait ArrChoiceInstanceChain 
   final given arrowChoiceFromCats[->[_, _]]: (arr: ArrowChoice[->]) => ArrChoice[->] 
